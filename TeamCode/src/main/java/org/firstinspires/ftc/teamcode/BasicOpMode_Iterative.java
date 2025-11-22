@@ -53,6 +53,7 @@ import com.qualcomm.robotcore.util.Range;
 @TeleOp(name="OpMode")
 public class BasicOpMode_Iterative extends OpMode
 {
+    private double speed = 0.7;
     // Declare OpMode members.
     private ElapsedTime runtime = new ElapsedTime();
     private DcMotor leftDrive = null;
@@ -76,6 +77,8 @@ public class BasicOpMode_Iterative extends OpMode
         // Note: The settings here assume direct drive on left and right wheels.  Gear Reduction or 90 Deg drives may require direction flips
         leftDrive.setDirection(DcMotor.Direction.REVERSE);
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
+        leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+        rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -105,13 +108,18 @@ public class BasicOpMode_Iterative extends OpMode
         double leftPower;
         double rightPower;
 
+        if(gamepad1.right_trigger > 0.3) {
+            speed = 1;
+        } else {
+            speed = 0.7;
+        }
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
         // POV Mode uses left stick to go forward, and right stick to turn.
         // - This uses basic math to combine motions and is easier to drive straight.
-        double drive = -gamepad1.left_stick_y * 0.7;
-        double turn  =  gamepad1.right_stick_x * 0.7;
+        double drive = -gamepad1.left_stick_y * speed;
+        double turn  =  gamepad1.right_stick_x * speed;
         leftPower    = Range.clip(drive + turn, -1.0, 1.0) ;
         rightPower   = Range.clip(drive - turn, -1.0, 1.0) ;
 
