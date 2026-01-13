@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.Subsystems;
 
+import android.os.Build;
 import android.util.Size;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -32,7 +33,9 @@ public class AprilTags {
                 .build();
         VisionPortal.Builder builder = new VisionPortal.Builder();
         builder.setCamera(hardwareMap.get(WebcamName.class, "Webcam"));
-        builder.setCameraResolution(new Size(640, 480));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            builder.setCameraResolution(new Size(640, 480));
+        }
         builder.addProcessor(aprilTagProcessor);
 
         builder.build();
