@@ -63,6 +63,8 @@ public class BasicOpMode_Iterative extends OpMode
 
 
 
+
+
     /*
      * Code to run ONCE when the driver hits INIT
      */
@@ -75,6 +77,7 @@ public class BasicOpMode_Iterative extends OpMode
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
+        DcMotor intake = hardwareMap.get(DcMotor.class, "intake1");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -83,6 +86,7 @@ public class BasicOpMode_Iterative extends OpMode
         rightDrive.setDirection(DcMotor.Direction.FORWARD);
         leftDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         rightDrive.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         // Tell the driver that initialization is complete.
         telemetry.addData("Status", "Initialized");
@@ -114,11 +118,7 @@ public class BasicOpMode_Iterative extends OpMode
         double leftPower;
         double rightPower;
 
-        if(gamepad1.right_trigger > 0.3) {
-            speed = 1;
-        } else {
-            speed = 0.7;
-        }
+
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
 
@@ -133,7 +133,7 @@ public class BasicOpMode_Iterative extends OpMode
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         leftPower  = -gamepad1.left_stick_y ;
         rightPower = -gamepad1.right_stick_y ;
-
+        double middlePower = 10;
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
