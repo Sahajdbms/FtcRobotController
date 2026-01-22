@@ -61,7 +61,7 @@ public class BasicOpMode_Iterative extends OpMode
     private DcMotor leftDrive = null;
     private DcMotor rightDrive = null;
 
-
+    private DcMotor intake = null;
 
 
 
@@ -77,7 +77,7 @@ public class BasicOpMode_Iterative extends OpMode
         // step (using the FTC Robot Controller app on the phone).
         leftDrive  = hardwareMap.get(DcMotor.class, "left_drive");
         rightDrive = hardwareMap.get(DcMotor.class, "right_drive");
-        DcMotor intake = hardwareMap.get(DcMotor.class, "intake1");
+        intake = hardwareMap.get(DcMotor.class, "intake1");
 
         // To drive forward, most robots need the motor on one side to be reversed, because the axles point in opposite directions.
         // Pushing the left stick forward MUST make robot go forward. So adjust these two lines based on your first test drive.
@@ -117,7 +117,7 @@ public class BasicOpMode_Iterative extends OpMode
         // Setup a variable for each drive wheel to save power level for telemetry
         double leftPower;
         double rightPower;
-
+        double middlePower;
 
         // Choose to drive using either Tank Mode, or POV Mode
         // Comment out the method that's not used.  The default below is POV.
@@ -131,14 +131,15 @@ public class BasicOpMode_Iterative extends OpMode
 
         // Tank Mode uses one stick to control each wheel.
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
-        leftPower  = -gamepad1.left_stick_y ;
+        leftPower  = +gamepad1.left_stick_y ;
         rightPower = -gamepad1.right_stick_y ;
-        double middlePower = 10;
+        middlePower = -5;
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
+        intake.setPower(middlePower);
 
-
+        //Andrew
         // Show the elapsed game time and wheel power.
         telemetry.addData("Status", "Run Time: " + runtime.toString());
         telemetry.addData("Motors", "left (%.2f), right (%.2f)", leftPower, rightPower);
