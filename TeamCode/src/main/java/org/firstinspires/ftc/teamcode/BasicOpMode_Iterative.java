@@ -133,7 +133,10 @@ public class BasicOpMode_Iterative extends OpMode
         // - This requires no math, but it is hard to drive forward slowly and keep straight.
         leftPower  = +gamepad1.left_stick_y ;
         rightPower = -gamepad1.right_stick_y ;
-        middlePower = -5;
+        middlePower = 0;
+        if (gamepad1.right_bumper) {
+            middlePower = -20;
+        };
         // Send calculated power to wheels
         leftDrive.setPower(leftPower);
         rightDrive.setPower(rightPower);
